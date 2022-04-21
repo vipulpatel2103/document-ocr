@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class StandardResponse {
+public class StandardResponse<T> {
     private boolean success;
-    private Object data;
+    private T data;
     private String[] errors;
 }
