@@ -1,4 +1,6 @@
-FROM openjdk:11-jdk-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/ocr-0.0.1-SNAPSHOT.jar"]
+# define base docker image
+FROM openjdk:11
+LABEL maintainer="Vipul"
+ARG JAR_FILE=build/libs/ocr-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} document-ocr.jar
+ENTRYPOINT ["java","-jar","/document-ocr.jar"]
