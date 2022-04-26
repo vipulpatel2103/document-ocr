@@ -20,20 +20,15 @@ public class DocProcessorService {
 
     public List<TextSegment> processDocument(MultipartFile multipartFile) {
 
-        try {
-            String mimeType = multipartFile.getContentType();
-            InputStream inputStream = multipartFile.getInputStream();
-            if (SupportedMimeTypes.contains(mimeType)) {
-                if (SupportedMimeTypes.MIME_APPLICATION_PDF.mimeType.equalsIgnoreCase(mimeType)) {
-                    return pdfProcessor.getSegments(inputStream, null);
-                } else {
-                    return imageProcessor.getSegments(inputStream, null);
-                }
+        String mimeType = multipartFile.getContentType();
+        if (SupportedMimeTypes.contains(mimeType)) {
+            if (SupportedMimeTypes.MIME_APPLICATION_PDF.mimeType.equalsIgnoreCase(mimeType)) {
+                return pdfProcessor.getSegments(multipartFile, null);
             } else {
-                throw new IllegalArgumentException();
+                return imageProcessor.getSegments(multipartFile, null);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 

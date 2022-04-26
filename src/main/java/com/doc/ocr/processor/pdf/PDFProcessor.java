@@ -4,6 +4,7 @@ import com.doc.ocr.processor.Processor;
 import com.doc.ocr.processor.model.TextSegment;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +16,10 @@ import java.util.Map;
 @Component("pdfProcessor")
 public class PDFProcessor implements Processor {
     @Override
-    public List<TextSegment> getSegments(InputStream inputStream, Map<String, String> params) {
+    public List<TextSegment> getSegments(MultipartFile multipartFile, Map<String, String> params) {
         PDDocument document = null;
         try {
-            document = PDDocument.load(inputStream);
+            document = PDDocument.load(multipartFile.getInputStream());
             CustomPDFTextStripper printTextLocations = new CustomPDFTextStripper();
             printTextLocations.setStartPage(1);
             printTextLocations.setEndPage(document.getNumberOfPages());

@@ -6,6 +6,7 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,26 +30,11 @@ public class ImageProcessor implements Processor {
     }
 
     @Override
-    public List<TextSegment> getSegments(InputStream inputStream, Map<String, String> params) {
+    public List<TextSegment> getSegments(MultipartFile multipartFile, Map<String, String> params) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
             String result = instance.doOCR(bufferedImage);
             return new HOCRParcer().parseHOCR(result);
-            //result = result.substring(result.indexOf("\n")+1);
-            /*SAXParserFactory factory = SAXParserFactory.newInstance();
-            try {
-                *//*Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(new URL("http://www.w3.org/TR/html4/loose.dtd"));
-                factory.setValidating(true);
-                factory.setSchema(schema);*//*
-                SAXParser saxParser = factory.newSAXParser();
-
-                XMLDefaultHandler handler = new XMLDefaultHandler();
-                saxParser.parse(result, handler);
-
-            } catch (ParserConfigurationException | SAXException | IOException e) {
-                e.printStackTrace();
-            }*/
-            //System.out.println(result);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (TesseractException e) {
