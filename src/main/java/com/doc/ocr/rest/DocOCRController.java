@@ -2,6 +2,7 @@ package com.doc.ocr.rest;
 
 import com.doc.ocr.dto.StandardResponse;
 import com.doc.ocr.processor.DocProcessorService;
+import com.doc.ocr.processor.model.DocumentProcessorType;
 import com.doc.ocr.processor.model.TextSegment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,21 +31,21 @@ public class DocOCRController {
     }
 
     @PostMapping(value = "/ocr/segment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCRSegment(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang) throws IOException {
+    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCRSegment(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
         return ResponseEntity.ok(
                 StandardResponse.<List<TextSegment>>builder()
                         .success(true)
-                        .data(docProcessorService.doOCRSegment(file))
+                        .data(docProcessorService.doOCRSegment(file, lang, type))
                         .build()
         );
     }
 
     @PostMapping(value = "/ocr/text", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StandardResponse<String>> doOCRText(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang) throws IOException {
+    public ResponseEntity<StandardResponse<String>> doOCRText(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
         return ResponseEntity.ok(
                 StandardResponse.<String>builder()
                         .success(true)
-                        .data(docProcessorService.doOCRText(file))
+                        .data(docProcessorService.doOCRText(file, lang, type))
                         .build()
         );
     }

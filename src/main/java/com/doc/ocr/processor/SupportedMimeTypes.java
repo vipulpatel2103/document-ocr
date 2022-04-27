@@ -9,7 +9,7 @@ public enum SupportedMimeTypes {
     MIME_IMAGE_TIFF("image/tiff"),
     MIME_IMAGE_PNG("image/png");
 
-    String mimeType;
+    public String mimeType;
 
     SupportedMimeTypes(String type) {
         this.mimeType = type;
