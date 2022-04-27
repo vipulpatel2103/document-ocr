@@ -3,11 +3,14 @@ Document OCR
 
 ## Repository setup & installation
 
-This project has git submodules. Therefore you must check-out recursively to retrieve all required dependencies.
-This can be done with the command:
+This project has required `TESSDATA_PREFIX` to setup before run.
 
-`git clone --recurse-submodules <repository URL>`
+Run as Spring Boot Application - See Environment variable `TESSDATA_PREFIX`
 
-If you have already cloned the repo but not specified that you want to retrieve submodules, use the command:
+Run as Docker image - `docker-compose up`
 
-`git submodule update --init --recursive`
+## API Documentation
+http://localhost:8080/v3/api-docs/
+
+## Swagger UI
+http://localhost:8080/swagger-ui/index.html
