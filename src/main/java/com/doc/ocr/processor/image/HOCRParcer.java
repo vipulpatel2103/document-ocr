@@ -2,6 +2,8 @@ package com.doc.ocr.processor.image;
 
 import com.doc.ocr.processor.model.SegmentationType;
 import com.doc.ocr.processor.model.TextSegment;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,6 +11,7 @@ import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class HOCRParcer {
@@ -32,7 +35,7 @@ public class HOCRParcer {
             if (element.hasClass(HocrWord)) {
                 String title = element.attributes().get(HocrTitle);
                 TextSegment textSegment = TextSegment.builder()
-                        .Text(element.ownText())
+                        .Text(getOwnText(element))
                         .Type(SegmentationType.Word)
                         .Rect(getRectangleFromTitle(title))
                         .Confidence(getConfidenceFromTitle(title))
@@ -42,6 +45,18 @@ public class HOCRParcer {
             //System.out.println(element.nodeName()+ " " + element.ownText());
         }
         return textSegmentList;
+    }
+
+    private String getOwnText(Element e) {
+        if (StringUtils.isAllBlank(e.ownText())) {
+            if (CollectionUtils.isNotEmpty(e.children())) {
+                return getOwnText(e.children().get(0));
+            } else {
+                return "";
+            }
+        } else {
+            return e.ownText();
+        }
     }
 
     private int getConfidenceFromTitle(String title) {

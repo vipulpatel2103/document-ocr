@@ -18,7 +18,7 @@ public class DocProcessorService {
     @Autowired
     Processor imageProcessor;
 
-    public List<TextSegment> processDocument(MultipartFile multipartFile) {
+    public List<TextSegment> doOCRSegment(MultipartFile multipartFile) {
 
         String mimeType = multipartFile.getContentType();
         if (SupportedMimeTypes.contains(mimeType)) {
@@ -26,6 +26,20 @@ public class DocProcessorService {
                 return pdfProcessor.getSegments(multipartFile, null);
             } else {
                 return imageProcessor.getSegments(multipartFile, null);
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public String doOCRText(MultipartFile multipartFile) {
+
+        String mimeType = multipartFile.getContentType();
+        if (SupportedMimeTypes.contains(mimeType)) {
+            if (SupportedMimeTypes.MIME_APPLICATION_PDF.mimeType.equalsIgnoreCase(mimeType)) {
+                return pdfProcessor.getText(multipartFile, null);
+            } else {
+                return imageProcessor.getText(multipartFile, null);
             }
         } else {
             throw new IllegalArgumentException();

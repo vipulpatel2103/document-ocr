@@ -11,4 +11,6 @@ public interface Processor {
 
     public List<TextSegment> getSegments(MultipartFile multipartFile, Map<String, String> params);
 
+    public String getText(MultipartFile multipartFile, Map<String, String> params);
+
 }

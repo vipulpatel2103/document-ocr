@@ -3,6 +3,7 @@ package com.doc.ocr.processor.pdf;
 import com.doc.ocr.processor.Processor;
 import com.doc.ocr.processor.model.TextSegment;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,11 +25,30 @@ public class PDFProcessor implements Processor {
             printTextLocations.setStartPage(1);
             printTextLocations.setEndPage(document.getNumberOfPages());
             printTextLocations.getText(document);
-
-            /*for (TextSegment pdfRegion : printTextLocations.pdfregions) {
-                System.out.println(pdfRegion);
-            }*/
             return printTextLocations.pdfregions;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (document != null) {
+                try {
+                    document.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getText(MultipartFile multipartFile, Map<String, String> params) {
+        PDDocument document = null;
+        try {
+            document = PDDocument.load(multipartFile.getInputStream());
+            PDFTextStripper printTextLocations = new PDFTextStripper();
+            printTextLocations.setStartPage(1);
+            printTextLocations.setEndPage(document.getNumberOfPages());
+            return printTextLocations.getText(document);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

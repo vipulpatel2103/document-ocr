@@ -19,13 +19,33 @@ public class DocOCRController {
     @Autowired
     private DocProcessorService docProcessorService;
 
-    @GetMapping(value = "/ocr", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/ocr/ping", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StandardResponse> testOCR() {
-        return ResponseEntity.ok(StandardResponse.builder().success(true).build());
+        return ResponseEntity.ok(
+                StandardResponse.builder()
+                        .success(true)
+                        .data("Ping Success")
+                        .build()
+        );
     }
 
-    @PostMapping(value = "/ocr", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCR(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang) throws IOException {
-        return ResponseEntity.ok(StandardResponse.<List<TextSegment>>builder().success(true).data(docProcessorService.processDocument(file)).build());
+    @PostMapping(value = "/ocr/segment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCRSegment(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang) throws IOException {
+        return ResponseEntity.ok(
+                StandardResponse.<List<TextSegment>>builder()
+                        .success(true)
+                        .data(docProcessorService.doOCRSegment(file))
+                        .build()
+        );
+    }
+
+    @PostMapping(value = "/ocr/text", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<StandardResponse<String>> doOCRText(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang) throws IOException {
+        return ResponseEntity.ok(
+                StandardResponse.<String>builder()
+                        .success(true)
+                        .data(docProcessorService.doOCRText(file))
+                        .build()
+        );
     }
 }

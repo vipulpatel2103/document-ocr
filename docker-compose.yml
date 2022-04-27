@@ -8,3 +8,4 @@ services:
       - "8080:8080"
     environment:
       - LC_ALL=C
+      - TESSDATA_PREFIX=/usr/share/tessdata
