@@ -32,7 +32,7 @@ public class DocProcessorService {
                 return imageProcessor.getSegments(multipartFile, Collections.singletonMap("lang", lang));
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Document Type not supported. Supported document type could be "+ Arrays.asList(SupportedMimeTypes.values()));
         }
     }
 
@@ -47,7 +47,7 @@ public class DocProcessorService {
                 return imageProcessor.getText(multipartFile, Collections.singletonMap("lang", lang));
             }
         } else {
-            throw new IllegalArgumentException("Document Type not supported. Supported document type could be "+ Arrays.stream(SupportedMimeTypes.values()).toString());
+            throw new IllegalArgumentException("Document Type not supported. Supported document type could be "+ Arrays.asList(SupportedMimeTypes.values()).toString());
         }
     }
 
