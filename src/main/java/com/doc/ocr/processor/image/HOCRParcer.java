@@ -39,8 +39,7 @@ public class HOCRParcer {
                         .build();
                 textSegmentList.add(textSegment);
             }
-            System.out.println(element.nodeName()
-                    + " " + element.ownText());
+            //System.out.println(element.nodeName()+ " " + element.ownText());
         }
         return textSegmentList;
     }
