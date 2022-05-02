@@ -31,7 +31,7 @@ public class DocOCRController {
     }
 
     @PostMapping(value = "/ocr/segment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCRSegment(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
+    public ResponseEntity<StandardResponse<List<TextSegment>>> doOCRSegment(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "eng") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
         return ResponseEntity.ok(
                 StandardResponse.<List<TextSegment>>builder()
                         .success(true)
@@ -41,7 +41,7 @@ public class DocOCRController {
     }
 
     @PostMapping(value = "/ocr/text", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<StandardResponse<String>> doOCRText(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "en") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
+    public ResponseEntity<StandardResponse<String>> doOCRText(@RequestParam("file") MultipartFile file, @RequestParam(defaultValue = "eng") String lang, @RequestParam(defaultValue = "pdf") DocumentProcessorType type) throws IOException {
         return ResponseEntity.ok(
                 StandardResponse.<String>builder()
                         .success(true)

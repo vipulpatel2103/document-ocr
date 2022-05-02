@@ -27,7 +27,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             IllegalArgumentException ex, WebRequest request) {
 
         return new ResponseEntity<>(StandardResponse.builder()
-                .errors(new String[]{ex.getMessage()})
+                .errors(ex.getMessage())
                 .build()
                 , HttpStatus.BAD_REQUEST);
     }
@@ -37,7 +37,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             Exception ex, WebRequest request) {
 
         return new ResponseEntity<>(StandardResponse.builder()
-                .errors((String[]) Stream.of(ex.getMessage()).toArray())
+                .errors(ex.getMessage())
                 .build()
                 , HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -54,7 +54,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(StandardResponse.builder()
-                .errors((String[]) errors.toArray())
+                .errors(Arrays.toString(errors.toArray()))
                 .build()
                 , HttpStatus.BAD_REQUEST);
     }

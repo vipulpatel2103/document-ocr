@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import FriendList from './FriendList';
+import OCRResult from './OCRResult';
 import '../css/Main.css';
 
 class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            friends: []
+            friends: [],
+            ocrResult: {}
         }
     }
 
@@ -48,6 +50,26 @@ class Main extends Component {
         evt.target.reset();
         return false;
     }
+    handleFileSubmit(evt) {
+            evt.preventDefault();
+            fetch("/doc/ocr/text", {
+                method: "POST",
+                body: new FormData(evt.target)
+            })
+            .then(response => response.json())
+            .then((response) => {
+
+                    this.setState({
+                        ocrResult: response
+                    });
+
+                }
+            ).catch((error) => {
+                alert(error);
+            });
+            evt.target.reset();
+            return false;
+        }
 
     render() {
         return (
@@ -57,6 +79,12 @@ class Main extends Component {
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <input id="name" name="name" type="text" placeholder="Enter name"/>
                     <button type='submit'>Create</button>
+                </form>
+
+                <OCRResult ocrResult={this.state.ocrResult}/>
+                <form onSubmit={this.handleFileSubmit.bind(this)}>
+                    <input id="file" name="file" type="file" placeholder="file upload"/>
+                    <button type='submit'>Upload</button>
                 </form>
             </div>
         );

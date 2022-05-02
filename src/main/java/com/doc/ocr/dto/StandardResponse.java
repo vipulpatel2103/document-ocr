@@ -8,5 +8,5 @@ import lombok.Data;
 public class StandardResponse<T> {
     private boolean success;
     private T data;
-    private String[] errors;
+    private String errors;
 }
