@@ -1,3 +1,9 @@
 [submodule "src/main/resources/tessdata"]
 	path = src/main/resources/tessdata
 	url = https://github.com/tesseract-ocr/tessdata.git
+[submodule "tessdata_fast"]
+	path = tessdata_fast
+	url = https://github.com/tesseract-ocr/tessdata_fast.git
+[submodule "tessdata_best"]
+	path = tessdata_best
+	url = https://github.com/tesseract-ocr/tessdata_best.git
